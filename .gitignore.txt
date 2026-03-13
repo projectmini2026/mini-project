@@ -1,5 +1,12 @@
-.vs/
+# .NET build folders
 bin/
 obj/
+
+# Visual Studio
+.vs/
+
+# Node modules (Angular)
 node_modules/
+
+# Angular build
 dist/
