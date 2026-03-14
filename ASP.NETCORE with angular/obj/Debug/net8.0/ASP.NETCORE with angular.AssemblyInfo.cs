@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ASP.NETCORE with angular")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a7ef6a1fa2ed4a6f2e7424e73e935c982d70e857")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a5c9fe53f467a184b9f57078dff337b77dec131b")]
 [assembly: System.Reflection.AssemblyProductAttribute("ASP.NETCORE with angular")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ASP.NETCORE with angular")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

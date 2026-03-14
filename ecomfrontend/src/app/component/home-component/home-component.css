@@ -1,18 +1,115 @@
-.dashboard-tile {
-  min-height: 150px;
+/* ================= SIDEBAR ================= */
+
+.sidebar-item{
+  cursor: pointer;
   border-radius: 10px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.25s ease;
+  margin-bottom: 12px;
+  border: none;
 }
 
-.dashboard-tile:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+/* Hover Effect */
+.sidebar-item:hover{
+  background-color: #f5f7fa;
+  transform: translateX(6px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-.card-title {
+/* Active Menu Item */
+.sidebar-item.active{
+  background: linear-gradient(135deg,#0d6efd,#3a8bfd);
+  color: white;
+  box-shadow: 0 4px 12px rgba(13,110,253,0.4);
+}
+
+/* Sidebar Height */
+.vh-100{
+  height: calc(100vh - 60px);
+}
+
+/* Sidebar Card Styling */
+.sidebar-item .card-body{
+  padding: 12px 16px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Badge Styling */
+.sidebar-item .badge{
+  font-size: 0.75rem;
+  padding: 5px 8px;
+}
+
+
+
+/* ================= DASHBOARD TILES ================= */
+
+.dashboard-tile{
+  cursor: pointer;
+  border-radius: 14px;
+  padding: 28px;
+  border: none;
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+/* Hover Animation */
+.dashboard-tile:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 12px 22px rgba(0,0,0,0.15);
+}
+
+/* Icons inside tiles */
+.tile-icon{
+  font-size: 48px;
+  transition: transform 0.3s ease;
+}
+
+/* Icon Animation */
+.dashboard-tile:hover .tile-icon{
+  transform: scale(1.15);
+}
+
+/* Tile Title */
+.dashboard-tile h5{
+  font-weight: 600;
+  margin-top: 12px;
+  color: #333;
+}
+
+
+
+/* ================= MODULE CARDS ================= */
+
+.module-card{
+  border-radius: 12px;
+  transition: all 0.25s ease;
+}
+
+.module-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+
+
+
+/* ================= TABLE IMPROVEMENT ================= */
+
+.table th{
   font-weight: 600;
 }
 
-h1 {
-  font-size: 2.5rem;
+.table td{
+  vertical-align: middle;
+}
+
+
+
+/* ================= LIST GROUP ================= */
+
+.list-group-item{
+  border: none;
+  border-bottom: 1px solid #f1f1f1;
 }
