@@ -1,24 +1,52 @@
+
 <div class="container-fluid p-0">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-<!-- HEADER -->
-<div class="row bg-primary text-white p-3 align-items-center shadow-sm">
 
+<!-- HEADER -->
+<div class="row text-white px-4 py-3 align-items-center shadow-sm" style="background:#27466b;">
+
+  <!-- LEFT : SYSTEM NAME -->
   <div class="col-6">
-    <h5 class="mb-0 fw-semibold">
-      <i class="bi bi-person-circle me-2"></i>
-      {{userName}} - {{role}}
+
+    <h5 class="fw-bold mb-0">
+      Internal Examination Scrutiny System
     </h5>
+
+   
+
   </div>
 
-  <div class="col-6 text-end">
-    <button class="btn btn-light btn-sm px-3" (click)="logout()">
-      <i class="bi bi-box-arrow-right me-1"></i> Logout
-    </button>
+
+  <!-- RIGHT : USER INFO -->
+  <div class="col-6 text-end d-flex justify-content-end align-items-center gap-4">
+
+    
+
+
+    <!-- User Info -->
+    <div class="text-end">
+
+      <div class="fw-semibold">
+        {{userName}}
+      </div>
+
+      <small class="text-light">
+        {{role}}
+      </small>
+
+    </div>
+
+
+    <!-- Logout -->
+    <i class="bi bi-box-arrow-right fs-5" style="cursor:pointer" (click)="logout()"></i>
+
   </div>
 
 </div>
+```
+
 
 
 <div class="row m-0">
@@ -59,7 +87,6 @@
 </div>
 
 
-
 <!-- RIGHT CONTENT -->
 <div class="col-9 p-4">
 
@@ -67,29 +94,37 @@
 <!-- ================= DASHBOARD ================= -->
 @if(selectedMenu === 'Dashboard') {
 
-<div class="mb-3">
-  <h4 class="fw-bold">Dashboard</h4>
-</div>
+
 
 <div class="row mb-4 g-4">
 
   <div class="col-md-6">
-    <div class="card dashboard-tile shadow-sm text-center">
-      <div class="card-body">
-        <i class="bi bi-plus-circle-fill tile-icon text-success"></i>
-        <h5 class="mt-3">Create New Module</h5>
-      </div>
-    </div>
-  </div>
+  <div 
+  class="card dashboard-tile shadow-sm text-center"
+  style="cursor:pointer"
+  (click)="navigate('Module Management')">
 
-  <div class="col-md-6">
-    <div class="card dashboard-tile shadow-sm text-center">
-      <div class="card-body">
-        <i class="bi bi-person-check-fill tile-icon text-primary"></i>
-        <h5 class="mt-3">Assign Coordinators</h5>
-      </div>
+    <div class="card-body">
+      <i class="bi bi-plus-circle-fill tile-icon text-success"></i>
+      <h5 class="mt-3">Create New Module</h5>
     </div>
+
   </div>
+</div>
+
+ <div class="col-md-6">
+  <div 
+  class="card dashboard-tile shadow-sm text-center"
+  style="cursor:pointer"
+  (click)="navigate('Faculty Management')">
+
+    <div class="card-body">
+      <i class="bi bi-person-check-fill tile-icon text-primary"></i>
+      <h5 class="mt-3">Assign Coordinators</h5>
+    </div>
+
+  </div>
+</div>
 
 </div>
 
@@ -102,12 +137,32 @@
     <div class="card shadow-sm text-center p-3">
       <i class="bi bi-person-badge-fill fs-3 text-primary"></i>
       <h6 class="mt-2">Exam Coordinator</h6>
-      <p class="mb-0 text-muted">{{examCoordinator}}</p>
+      <p class="mb-0 text-muted">{{examCoordinator || 'Not assigned'}}</p>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card shadow-sm p-3">
+      <i class="bi bi-person-workspace fs-3 text-success text-center d-block mb-2"></i>
+      <h6 class="mt-2 text-center">Module Coordinators</h6>
+
+      <ul class="list-group list-group-flush mt-3">
+
+        @for (module of moduleDetails; track module.id) {
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span>{{module.name}}</span>
+          <span class="text-muted">{{module.coordinator || 'Not assigned'}}</span>
+        </li>
+
+        }
+
+      </ul>
+
     </div>
   </div>
 
 </div>
-
 
 <h5 class="mb-3">Current Modules</h5>
 
@@ -131,7 +186,6 @@
 }
 
 
-
 <!-- ================= MODULE MANAGEMENT ================= -->
 @if(selectedMenu === 'Module Management') {
 
@@ -142,8 +196,13 @@
     <p class="text-muted">Manage modules, subjects and teachers</p>
   </div>
 
-  <button class="btn btn-primary shadow-sm">
-    <i class="bi bi-plus-lg me-1"></i> Create Module
+  <button 
+  class="btn main-color"
+  data-bs-toggle="modal"
+  data-bs-target="#createModuleModal">
+
+  <i class="bi bi-plus-lg me-1"></i> Create Module
+
   </button>
 
 </div>
@@ -153,16 +212,22 @@
 
 <div class="card shadow-sm mb-4 border-0 module-card">
 
-  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+  <div class="card-header btn main-color text-white d-flex justify-content-between align-items-center">
 
     <div>
       <strong>{{module.name}}</strong>
       <small class="ms-2">(Module {{module.id}})</small>
     </div>
 
-    <button class="btn btn-light btn-sm">
-      <i class="bi bi-pencil"></i>
-    </button>
+   <button 
+   class="btn btn-light btn-sm"
+   (click)="openEditModule(module)"
+   data-bs-toggle="modal"
+   data-bs-target="#editModuleModal">
+
+   <i class="bi bi-pencil"></i>
+
+   </button>
 
   </div>
 
@@ -245,7 +310,7 @@
 <!-- EXAM COORDINATOR -->
 <div class="card shadow-sm mb-4">
 
-  <div class="card-header bg-primary text-white">
+  <div class="card-header btn main-color text-white">
     <i class="bi bi-person-badge me-2"></i>
     Exam Coordinator
   </div>
@@ -260,8 +325,7 @@
           Select Exam Coordinator
         </label>
 
-        <select class="form-select"
-        [(ngModel)]="selectedExamCoordinator">
+        <select class="form-select" [(ngModel)]="selectedExamCoordinator">
 
           @for (teacher of allTeachers; track teacher) {
 
@@ -278,30 +342,30 @@
       <div class="col-md-3">
 
         <button
-        class="btn btn-success"
-        (click)="confirmExamCoordinator()">
+class="btn"
+(click)="confirmExamCoordinator()"
+[disabled]="!selectedExamCoordinator"
+[ngClass]="examConfirmed ? 'btn-secondary' : 'btn-success'">
 
-          <i class="bi bi-check-circle me-1"></i>
-          Confirm
+<i class="bi bi-check-circle me-1"></i>
+{{ examConfirmed ? 'Confirmed' : 'Confirm' }}
 
-        </button>
+</button>
 
+<span 
+class="badge bg-success ms-2"
+*ngIf="examConfirmed">
+
+Assigned ✓
+
+</span>
       </div>
 
     </div>
 
-    @if(examCoordinatorMessage){
-
-    <div class="alert alert-success mt-3">
-      {{examCoordinatorMessage}}
-    </div>
-
-    }
-
   </div>
 
 </div>
-
 
 
 <!-- MODULE COORDINATORS -->
@@ -345,60 +409,27 @@
       <div class="col-md-3">
 
         <button
-        class="btn btn-success"
-        (click)="confirmModuleCoordinator(module)">
+        class="btn"
+        (click)="confirmModuleCoordinator(module)"
+        [disabled]="!selectedModuleCoordinator[module.id]"
+        [ngClass]="confirmedModules[module.id] ? 'btn-secondary' : 'btn-success'">
 
-          <i class="bi bi-check-circle me-1"></i>
-          Confirm
+        <i class="bi bi-check-circle me-1"></i>
+        {{ confirmedModules[module.id] ? 'Confirmed' : 'Confirm' }}
 
         </button>
+
+        <span 
+        class="badge bg-success ms-2"
+        *ngIf="confirmedModules[module.id]">
+
+        Assigned ✓
+
+        </span>
 
       </div>
 
     </div>
-
-
-    <h6 class="fw-bold mt-3 mb-2">
-      <i class="bi bi-book text-success me-2"></i>
-      Subjects
-    </h6>
-
-    <ul class="list-group mb-3">
-
-      @for (subject of module.subjects; track subject.code) {
-
-      <li class="list-group-item">
-
-        <span class="badge bg-secondary me-2">
-          {{subject.code}}
-        </span>
-
-        {{subject.name}}
-
-      </li>
-
-      }
-
-    </ul>
-
-
-    <h6 class="fw-bold mb-2">
-      <i class="bi bi-people text-primary me-2"></i>
-      Teachers in Module
-    </h6>
-
-    <ul class="list-group">
-
-      @for (teacher of module.teachers; track teacher) {
-
-      <li class="list-group-item">
-        <i class="bi bi-person-circle me-2 text-primary"></i>
-        {{teacher}}
-      </li>
-
-      }
-
-    </ul>
 
   </div>
 
@@ -406,19 +437,223 @@
 
 }
 
-@if(moduleCoordinatorMessage){
-
-<div class="alert alert-success">
-  {{moduleCoordinatorMessage}}
-</div>
-
-}
-
 }
 
 </div>
 
 </div>
 
+</div>
+
+<!-- CREATE MODULE MODAL -->
+<div class="modal fade" id="createModuleModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="btn main-color">
+        <h5 class="modal-title">Create Module</h5>
+        
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+
+        <!-- Module Info -->
+        <div class="row mb-3">
+
+          <div class="col-md-6">
+            <label class="form-label">Module Name</label>
+            <input type="text" class="form-control" [(ngModel)]="newModule.name">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Module Code</label>
+            <input type="text" class="form-control" [(ngModel)]="newModule.code">
+          </div>
+
+        </div>
+
+        <hr>
+
+        <h6 class="fw-bold mb-3">Add Subjects</h6>
+
+        <!-- Subject Inputs -->
+        <div class="row mb-3">
+
+          <div class="col-md-5">
+            <label class="form-label">Subject Name</label>
+            <input type="text" class="form-control" [(ngModel)]="newModule.subjects">
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Subject Code</label>
+            <input type="text" class="form-control" [(ngModel)]="newModule.code">
+          </div>
+
+          <div class="col-md-3 d-flex align-items-end">
+            <button class="btn btn-success w-100" (click)="addSubject()">
+              <i class="bi bi-plus-lg"></i> Add
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Subject List -->
+        <table class="table table-sm table-striped" *ngIf="newModule.subjects.length > 0">
+
+          <thead>
+            <tr>
+              <th>Subject Code</th>
+              <th>Subject Name</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            @for (sub of newModule.subjects; track sub.code) {
+
+            <tr>
+              <td>{{sub.code}}</td>
+              <td>{{sub.name}}</td>
+            </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+
+        <button class="btn main-color"(click)="createModule()">
+          Create Module
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODULE MODAL -->
+<div class="modal fade" id="editModuleModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Edit Module</h5>
+        <button type="button"
+                class="btn-close btn-close-white"
+                data-bs-dismiss="modal">
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+
+        <!-- Module Name -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Module Name</label>
+          <input type="text"
+                 class="form-control"
+                 [(ngModel)]="editModule.name">
+        </div>
+
+        <hr>
+
+        <!-- Add Subject Section -->
+        <h6 class="fw-bold mb-3">Add Subject</h6>
+
+        <div class="row mb-3">
+
+          <div class="col-md-5">
+            <label class="form-label">Subject Name</label>
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="subjectName">
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Subject Code</label>
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="subjectCode">
+          </div>
+
+          <div class="col-md-3 d-flex align-items-end">
+            <button class="btn btn-success w-100"
+                    (click)="addSubjectToEdit()">
+              <i class="bi bi-plus-lg"></i> Add
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Subject List -->
+        <table class="table table-striped table-sm"
+               *ngIf="editModule.subjects.length > 0">
+
+          <thead>
+            <tr>
+              <th>Subject Code</th>
+              <th>Subject Name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            @for (subject of editModule.subjects; track subject.code) {
+
+            <tr>
+
+              <td>{{subject.code}}</td>
+
+              <td>{{subject.name}}</td>
+
+              <td>
+                <button class="btn btn-sm btn-danger"
+                        (click)="removeSubjectFromEdit(subject)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+
+            </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+
+        <button class="btn btn-secondary"
+                data-bs-dismiss="modal">
+          Cancel
+        </button>
+
+        <button class="btn btn-primary"
+                (click)="updateModule()"
+                data-bs-dismiss="modal">
+          Update Module
+        </button>
+
+      </div>
+
+    </div>
+  </div>
 </div>
 ```
