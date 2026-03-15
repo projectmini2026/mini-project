@@ -1,58 +1,57 @@
-<div class="container">
-  <div class="row justify-content-center mt-5">
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
 
-    <div class="col-md-4">
+  <div class="col-md-4">
 
-      <div class="card shadow">
-        <div class="card-header bg-primary text-white text-center">
-          <h4>Login</h4>
-        </div>
+    <div class="card shadow">
 
-        <div class="card-body">
+      <div class="card-header bg main-color text-white text-center">
+        <h4>Login</h4>
+      </div>
 
-          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="card-body">
 
-            <div class="mb-3">
-              <label>Email</label>
-              <input
-                type="email"
-                class="form-control"
-                formControlName="email"
-                placeholder="Enter email"
-              />
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-              <small class="text-danger"
-                *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].invalid">
-                Valid Email Required
-              </small>
-            </div>
+          <div class="mb-3">
+            <label>Email</label>
+            <input
+              type="email"
+              class="form-control"
+              formControlName="email"
+              placeholder="Enter email"
+            />
 
-            <div class="mb-3">
-              <label>Password</label>
-              <input
-                type="password"
-                class="form-control"
-                formControlName="password"
-                placeholder="Enter password"
-              />
+            <small class="text-danger"
+              *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].invalid">
+              Valid Email Required
+            </small>
+          </div>
 
-              <small class="text-danger"
-                *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid">
-                Password Required
-              </small>
-            </div>
+          <div class="mb-3">
+            <label>Password</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+              placeholder="Enter password"
+            />
 
-            <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">
-              Login
-            </button>
+            <small class="text-danger"
+              *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid">
+              Password Required
+            </small>
+          </div>
 
-          </form>
+          <button type="submit" class="btn bg main-color w-100" [disabled]="loginForm.invalid">
+            Login
+          </button>
 
-        </div>
+        </form>
 
       </div>
 
     </div>
 
   </div>
+
 </div>
