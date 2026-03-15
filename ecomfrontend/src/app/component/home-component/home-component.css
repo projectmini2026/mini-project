@@ -1,3 +1,11 @@
+.main-color{
+  background:#27466b !important;
+  color:white !important;
+}
+
+.main-text{
+  color:#27466b !important;
+}
 /* ================= SIDEBAR ================= */
 
 .sidebar-item{
@@ -17,7 +25,7 @@
 
 /* Active Menu Item */
 .sidebar-item.active{
-  background: linear-gradient(135deg,#0d6efd,#3a8bfd);
+  background: linear-gradient(135deg,#27466b,#27466b);
   color: white;
   box-shadow: 0 4px 12px rgba(13,110,253,0.4);
 }

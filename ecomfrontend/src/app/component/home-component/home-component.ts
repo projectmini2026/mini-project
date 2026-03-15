@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { BaseComponent } from '../base.component';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 interface Subject {
   code: string;
@@ -20,7 +21,7 @@ interface Module {
 @Component({
   selector: 'app-home-component',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './home-component.html',
   styleUrl: './home-component.css',
 })
@@ -28,7 +29,7 @@ export class HomeComponent extends BaseComponent {
 
   private router = inject(Router);
 
-  userName: string = "Krishna";
+  userName: string = "Dr.John";
   role: string = "HOD";
 
   selectedMenu: string = "Dashboard";
@@ -141,39 +142,176 @@ export class HomeComponent extends BaseComponent {
   // ================= CONFIRMATION MESSAGES =================
 
   examCoordinatorMessage: string = "";
-  moduleCoordinatorMessage: string = "";
 
+  // separate message for each module
+  moduleCoordinatorMessage: { [key: number]: string } = {};
 
+// ================= BUTTON COLOR STATE =================
+
+examConfirmed: boolean = false;
+confirmedModules: { [key: number]: boolean } = {};
   // ================= ASSIGN FUNCTIONS =================
 
   confirmExamCoordinator() {
 
-    if (this.selectedExamCoordinator) {
+  if (this.selectedExamCoordinator) {
 
-      this.examCoordinator = this.selectedExamCoordinator;
+    this.examCoordinator = this.selectedExamCoordinator;
 
-      this.examCoordinatorMessage =
-        "Exam Coordinator assigned successfully!";
+    this.examCoordinatorMessage =
+      "Exam Coordinator assigned successfully!";
 
-      this.moduleCoordinatorMessage = "";
-    }
-  }
+    this.examConfirmed = true;
 
+    this.moduleCoordinatorMessage = {};
 
-  confirmModuleCoordinator(module: Module) {
-
-    const selected = this.selectedModuleCoordinator[module.id];
-
-    if (selected) {
-
-      module.coordinator = selected;
-
-      this.moduleCoordinatorMessage =
-        module.name + " coordinator assigned successfully!";
-
+    setTimeout(() => {
       this.examCoordinatorMessage = "";
-    }
+    }, 3000);
   }
 
 }
 
+
+  confirmModuleCoordinator(module: Module) {
+
+  const selected = this.selectedModuleCoordinator[module.id];
+
+  if (selected) {
+
+    module.coordinator = selected;
+
+    this.moduleCoordinatorMessage[module.id] =
+      module.name + " coordinator assigned successfully!";
+
+    // mark module as confirmed
+    this.confirmedModules[module.id] = true;
+
+    this.examCoordinatorMessage = "";
+
+    setTimeout(() => {
+      this.moduleCoordinatorMessage[module.id] = "";
+    }, 3000);
+  }
+
+}
+
+
+
+  // ================= CREATE MODULE =================
+
+  newModule = {
+    code: '',
+    name: '',
+    subjects: [] as Subject[]
+  };
+
+  subjectCode: string = '';
+  subjectName: string = '';
+
+  addSubject() {
+
+    if (this.subjectCode && this.subjectName) {
+
+      this.newModule.subjects.push({
+        code: this.subjectCode,
+        name: this.subjectName
+      });
+
+      this.subjectCode = '';
+      this.subjectName = '';
+    }
+
+  }
+
+  removeSubject(subject: Subject) {
+
+    this.newModule.subjects =
+      this.newModule.subjects.filter(s => s !== subject);
+
+  }
+
+  createModule() {
+
+    if (!this.newModule.name) {
+      alert("Please enter module name");
+      return;
+    }
+
+    const newId = this.moduleDetails.length + 1;
+
+    const module: Module = {
+      id: newId,
+      name: this.newModule.name,
+      coordinator: "Not assigned",
+      subjects: [...this.newModule.subjects],
+      teachers: []
+    };
+
+    this.moduleDetails.push(module);
+
+    this.newModule = {
+      code: '',
+      name: '',
+      subjects: []
+    };
+
+    this.subjectCode = '';
+    this.subjectName = '';
+
+    console.log("Module created:", module);
+
+  }
+
+
+
+  // ================= EDIT MODULE =================
+
+  editModule: Module = {
+    id: 0,
+    name: '',
+    coordinator: '',
+    subjects: [],
+    teachers: []
+  };
+
+  openEditModule(module: Module) {
+    this.editModule = JSON.parse(JSON.stringify(module));
+  }
+
+  addSubjectToEdit() {
+
+    if (this.subjectCode && this.subjectName) {
+
+      this.editModule.subjects.push({
+        code: this.subjectCode,
+        name: this.subjectName
+      });
+
+      this.subjectCode = '';
+      this.subjectName = '';
+    }
+
+  }
+
+  removeSubjectFromEdit(subject: Subject) {
+
+    this.editModule.subjects =
+      this.editModule.subjects.filter(s => s !== subject);
+
+  }
+
+  updateModule() {
+
+    const index = this.moduleDetails.findIndex(
+      m => m.id === this.editModule.id
+    );
+
+    if (index !== -1) {
+      this.moduleDetails[index] = this.editModule;
+    }
+
+  }
+  
+
+}
