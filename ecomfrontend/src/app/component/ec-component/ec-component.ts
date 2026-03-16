@@ -281,5 +281,10 @@ assignSuccess = false;
   toggleNotifications() {
     this.showNotifications = !this.showNotifications;
   }
+openExam(){
+  console.log("Open Examination clicked");
 
+  // later you can open modal or navigate
+  // this.router.navigate(['/open-exam']);
+}
 }
