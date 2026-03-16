@@ -117,6 +117,25 @@ style="cursor:pointer">
 
 @if(selectedMenu === 'Dashboard'){
 
+    <!-- ===== OPEN EXAM BUTTON ===== -->
+
+<div class="text-center mb-4">
+
+  <button 
+  class="open-exam-btn"
+  (click)="openExam()">
+
+  <i class="bi bi-clipboard-check-fill me-2"></i>
+  Open Examination
+
+  </button>
+
+  <div class="open-exam-text">
+    Start a new internal examination process
+  </div>
+
+</div>
+
 <div class="card shadow-sm dashboard-card p-4">
 
 <h5 class="fw-semibold">Pending Actions</h5>
