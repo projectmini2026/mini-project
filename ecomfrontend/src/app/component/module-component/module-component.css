@@ -1,0 +1,78 @@
+.sidebar {
+  background: #f5f6f8;
+  height: 100vh;
+}
+
+/* MENU ITEM STYLE */
+.menu-item {
+  background: #e9ecef;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* HOVER */
+.menu-item:hover {
+  transform: translateY(-2px);
+  background: #dee2e6;
+}
+
+/* ACTIVE (Dashboard selected look) */
+.menu-item.active {
+  background: #2f4f73;
+  color: white;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* ICON STYLE */
+.menu-item i {
+  font-size: 18px;
+}
+
+/* TEXT ALIGNMENT */
+.menu-item span {
+  font-size: 15px;
+}
+
+.dashboard-card {
+  border-radius: 12px;
+}
+
+/* Pending Box */
+.pending-box {
+  background: #f5ecd7;
+  border: 1px solid #f1c40f;
+  padding: 18px;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.pending-box:hover {
+  transform: translateY(-2px);
+}
+
+/* Icon */
+.pending-icon {
+  font-size: 22px;
+}
+
+/* Button */
+.assign-btn {
+  background: #d68910;
+  color: white;
+  border-radius: 8px;
+  padding: 6px 14px;
+}
+
+.assign-btn:hover {
+  background: #b9770e;
+}
+.badge {
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+}

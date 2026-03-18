@@ -1,44 +1,215 @@
-<div class="container-fluid mt-4">
+<div class="container-fluid p-0">
 
-  <div class="card shadow">
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-    <div class="card-header bg-primary text-white">
-      <h4 class="mb-0">Faculty Details</h4>
-    </div>
+<!-- ================= HEADER ================= -->
+<div class="row text-white px-4 py-3 align-items-center shadow-sm" style="background:#27466b;">
 
-    <div class="card-body">
+  <div class="col-6">
+    <h5 class="fw-bold mb-0">
+      Internal Examination Scrutiny System
+    </h5>
+  </div>
 
-      <div class="table-responsive">
+  <div class="col-6 text-end d-flex justify-content-end align-items-center gap-4">
 
-        <table class="table table-bordered table-striped text-center">
+    <!-- Notification -->
+    <div class="position-relative me-3">
 
-          <thead class="table-dark">
-            <tr>
-              @for (col of columns; track col.field) {
-                <th>{{ col.header }}</th>
-              }
-            </tr>
-          </thead>
+      <button class="btn text-white" (click)="toggleNotifications()">
+        <i class="bi bi-bell fs-5"></i>
+      </button>
 
-          <tbody>
-<tbody>
-  @for (row of rows; track row) {
-    <tr>
+      <div *ngIf="showNotifications"
+           class="position-absolute end-0 bg-white text-dark p-3 shadow rounded"
+           style="width:250px; z-index:1000;">
 
-      @for (col of columns; track col.field) {
-        <td>{{ row[col.field] }}</td>
-      }
+        <h6>Notifications</h6>
 
-    </tr>
-  }
-</tbody>
+        <div *ngIf="notifications.length === 0">
+          No notifications
+        </div>
 
-        </table>
+        <ul class="list-unstyled mb-0">
+          <li *ngFor="let note of notifications" class="border-bottom py-1">
+            {{note}}
+          </li>
+        </ul>
 
       </div>
-
     </div>
+
+    <!-- User -->
+    <div>
+      <strong>{{userName}}</strong><br>
+      <small>{{role}}</small>
+    </div>
+
+    <!-- Logout -->
+    <i class="bi bi-box-arrow-right fs-5"
+       style="cursor:pointer"
+       (click)="logout()"></i>
 
   </div>
 
 </div>
+
+<!-- ================= MAIN LAYOUT ================= -->
+<div class="row m-0">
+
+  <!-- ================= SIDEBAR ================= -->
+  <div class="col-3 sidebar p-3">
+
+    @for (tile of tiles; track tile.title) {
+
+      <div 
+        class="menu-item"
+        [class.active]="selectedMenu === tile.title"
+        (click)="navigate(tile.title)">
+
+        <div class="d-flex align-items-center">
+
+          <!-- ICONS -->
+          <i *ngIf="tile.title === 'Dashboard'" class="bi bi-speedometer2 me-3"></i>
+          <i *ngIf="tile.title === 'Module Management'" class="bi bi-diagram-3 me-3"></i>
+          <i *ngIf="tile.title === 'Work Flow Status'" class="bi bi-clipboard-data me-3"></i>
+          <i *ngIf="tile.title === 'Assign'" class="bi bi-person-check me-3"></i>
+          <i *ngIf="tile.title === 'Download'" class="bi bi-download me-3"></i>
+          <i *ngIf="tile.title === 'QN Paper'" class="bi bi-journal-text me-3"></i>
+          <i *ngIf="tile.title === 'Scrutiny Report'" class="bi bi-search me-3"></i>
+
+          <span>{{tile.title}}</span>
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+  <!-- ================= RIGHT CONTENT ================= -->
+  <div class="col-9 p-4">
+
+    <!-- DASHBOARD -->
+   @if(selectedMenu === 'Dashboard'){
+
+<div class="card shadow-sm p-4 dashboard-card mb-4">
+
+  <h5 class="fw-semibold">Pending Actions</h5>
+  <p class="text-muted mb-4">Tasks requiring your attention</p>
+
+  <!-- ASSIGN SCRUTINIZERS -->
+  <div class="pending-box d-flex justify-content-between align-items-center">
+
+    <div class="d-flex align-items-center">
+
+      <i class="bi bi-clock me-3 pending-icon text-warning"></i>
+
+      <div>
+        <h6 class="mb-1">Assign Scrutinizers</h6>
+        <small>{{pendingAssignCount}} papers pending assignment</small>
+      </div>
+
+    </div>
+
+    <button class="btn assign-btn"
+            (click)="goToAssign()">
+      Assign Now
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- ================= RECENT QUESTION PAPERS ================= -->
+
+<div class="card shadow-sm p-4 dashboard-card">
+
+  <h5 class="fw-semibold">Recent Question Papers</h5>
+  <p class="text-muted mb-4">
+    Latest submissions and their current status
+  </p>
+
+  <table class="table table-hover align-middle">
+
+    <thead class="table-light">
+      <tr>
+        <th>Paper ID</th>
+        <th>Faculty</th>
+        <th>Submitted Date</th>
+        <th>Scrutinizer</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let p of Papers">
+
+        <td>{{p.id}}</td>
+        <td>{{p.faculty}}</td>
+        <td>{{p.submittedDate || '-'}}</td>
+        <td>{{p.scrutinizer || 'Not Assigned'}}</td>
+
+        <td>
+          <span class="badge"
+
+            [ngClass]="{
+              'bg-success': p.status === 'Approved',
+              'bg-primary': p.status === 'Submitted',
+              'bg-warning text-dark': p.status === 'Under Scrutiny',
+              'bg-secondary': p.status === 'Not Submitted'
+            }">
+
+            {{p.status}}
+
+          </span>
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+}
+@if(selectedMenu === 'Dashboard'){
+<div class="card mt-4">
+  <div class="card-header custom-header">
+    Module Details
+  </div>
+  <div class="card-body">
+
+    <div class="row mb-2">
+      <div class="col-md-4"><strong>Module Name:</strong></div>
+      <div class="col-md-8">{{ module.name }}</div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-md-4"><strong>Module Code:</strong></div>
+      <div class="col-md-8">{{ module.code }}</div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-md-4"><strong>Coordinator:</strong></div>
+      <div class="col-md-8">{{ module.coordinator }}</div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-md-4"><strong>Total Subjects:</strong></div>
+      <div class="col-md-8">{{ module.subjects.length }}</div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-md-4"><strong>Total Teachers:</strong></div>
+      <div class="col-md-8">{{ module.teachers.length }}</div>
+    </div>
+
+  </div>
+</div>
+}

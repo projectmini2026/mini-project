@@ -13,4 +13,5 @@ export const routes: Routes = [
     {path:"faculty",component:FacultyComponent},
  {path:"module",component:ModuleComponent},
  {path:"ec",component:EcComponent},
+ 
 ];
