@@ -1,0 +1,298 @@
+ <div class="container-fluid p-0">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- HEADER -->
+<div class="row text-white px-4 py-3 align-items-center shadow-sm" style="background:#27466b;">
+
+  <div class="col-6">
+    <h5 class="fw-bold mb-0">
+      Internal Examination Scrutiny System
+    </h5>
+  </div>
+
+  <div class="col-6 text-end d-flex justify-content-end align-items-center gap-4">
+
+    <!-- Notification -->
+    <div class="position-relative me-3">
+
+      <button class="btn text-white" (click)="toggleNotifications()">
+        <i class="bi bi-bell fs-5"></i>
+      </button>
+
+      @if(showNotifications){
+      <div class="position-absolute end-0 bg-white text-dark p-3 shadow rounded"
+           style="width:250px; z-index:1000;">
+        <h6>Notifications</h6>
+
+        @if(notifications.length === 0){
+          <div>No notifications</div>
+        }
+
+        <ul class="list-unstyled mb-0">
+          @for(note of notifications; track note){
+            <li class="border-bottom py-1">{{note}}</li>
+          }
+        </ul>
+      </div>
+      }
+
+    </div>
+
+    <div>
+      <strong>{{userName}}</strong><br>
+      <small>{{role}}</small>
+    </div>
+
+    <i class="bi bi-box-arrow-right fs-5"
+       style="cursor:pointer"
+       (click)="logout()"></i>
+
+  </div>
+
+</div>
+
+<div class="row m-0">
+
+  <!-- SIDEBAR -->
+  <div class="col-3 bg-light vh-100 p-3 border-end">
+
+    @for(tile of tiles; track tile.title){
+
+    <div class="card sidebar-item shadow-sm mb-2"
+         [class.active]="selectedMenu === tile.title"
+         (click)="navigate(tile.title)"
+         style="cursor:pointer">
+
+      <div class="card-body d-flex align-items-center">
+
+        @if(tile.title === 'Dashboard'){
+          <i class="bi bi-speedometer2 me-2"></i>
+        }
+
+        @if(tile.title === 'QN Paper'){
+          <i class="bi bi-journal-text me-2"></i>
+        }
+
+        @if(tile.title === 'Scrutiny Report'){
+          <i class="bi bi-search me-2"></i>
+        }
+
+        <span>{{tile.title}}</span>
+
+      </div>
+
+    </div>
+
+    }
+
+  </div>
+
+  <!-- RIGHT CONTENT -->
+  <div class="col-9 p-4">
+
+    <!-- ================= DASHBOARD ================= -->
+
+    @if(selectedMenu === 'Dashboard'){
+
+      <!-- ===== OPEN EXAM BUTTON ===== -->
+
+      
+      <div class="card shadow-sm dashboard-card p-4">
+
+        <h5 class="fw-semibold">Pending Actions</h5>
+
+        <p class="text-muted mb-4">
+          Papers requiring your attention
+        </p>
+
+        <!-- NOT SUBMITTED -->
+
+        <div class="action-box d-flex justify-content-between align-items-center"
+             style="cursor:pointer"
+             (click)="openPendingPopup('notSubmitted')">
+
+          <div>
+            <h6>Not Submitted</h6>
+            <small>2 papers pending submission</small>
+          </div>
+
+          <i class="bi bi-exclamation-circle text-danger fs-5"></i>
+
+        </div>
+
+        <!-- UNDER REVIEW -->
+
+        <div class="action-box d-flex justify-content-between align-items-center mt-3"
+             style="cursor:pointer"
+             (click)="openPendingPopup('underReview')">
+
+          <div>
+            <h6>Under Review</h6>
+            <small>6 papers in scrutiny process</small>
+          </div>
+
+          <i class="bi bi-clock text-warning fs-5"></i>
+
+        </div>
+
+      </div>
+
+    }
+
+    <!-- ================= QN PAPER ================= -->
+
+    @if(selectedMenu === 'QN Paper'){
+
+      <h3>Upload Question Paper</h3>
+
+      <input type="file"
+             class="form-control mb-3"
+             (change)="uploadQnPaper($event)">
+
+      <button class="btn btn-primary"
+              (click)="submitQnPaper()">
+        Submit Paper
+      </button>
+
+    }
+
+    <!-- ================= SCRUTINY REPORT ================= -->
+
+    @if(selectedMenu === 'Scrutiny Report'){
+
+      @for(paper of workflowData; track paper.examDate){
+
+        <div class="card p-3 mb-3 shadow-sm">
+
+          <h6>{{paper.module}}</h6>
+
+          <p>Faculty: {{paper.faculty}}</p>
+
+          <button class="btn btn-outline-primary btn-sm me-2"
+                  (click)="viewPdf(paper)">
+            View Question Paper
+          </button>
+
+          <button class="btn btn-warning btn-sm"
+                  (click)="openScrutinyPopup(paper)">
+            Start Scrutiny
+          </button>
+
+        </div>
+
+      }
+
+    }
+
+  </div>
+
+</div>
+
+<!-- ================= PENDING POPUP ================= -->
+
+@if(showPendingPopup){
+
+  <div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+       style="background:rgba(0,0,0,0.5); z-index:2000;">
+
+    <div class="bg-white p-4 rounded shadow" style="width:700px">
+
+      <div class="d-flex justify-content-between">
+
+        <h5>{{popupTitle}}</h5>
+
+        <button class="btn btn-danger btn-sm"
+                (click)="closePendingPopup()">
+          Close
+        </button>
+
+      </div>
+
+      <table class="table mt-3">
+
+        <thead>
+          <tr>
+            <th>Module</th>
+            <th>Faculty</th>
+            <th>Exam Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for(item of pendingData; track item.examDate){
+            <tr>
+              <td>{{item.module}}</td>
+              <td>{{item.faculty}}</td>
+              <td>{{item.examDate}}</td>
+              <td>{{item.status}}</td>
+            </tr>
+          }
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+}
+
+<!-- ================= SCRUTINY POPUP ================= -->
+
+@if(showScrutinyPopup){
+
+  <div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+       style="background:rgba(0,0,0,0.5); z-index:2000;">
+
+    <div class="bg-white p-4 rounded shadow" style="width:900px">
+
+      <h4>Scrutiny Report</h4>
+
+      <div class="row">
+
+        <div class="col-md-6">
+
+          <h6>Question Paper</h6>
+
+          <div class="border p-3" style="height:350px">
+            PDF Preview Area
+          </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+          <h6>Remarks</h6>
+
+          @for(q of scrutinyQuestions; track q.question){
+            <div class="mb-2">
+              <label>{{q.question}}</label>
+              <textarea class="form-control" [(ngModel)]="q.remark"></textarea>
+            </div>
+          }
+
+        </div>
+
+      </div>
+
+      <div class="text-end mt-3">
+
+        <button class="btn btn-secondary me-2" (click)="closeScrutinyPopup()">
+          Cancel
+        </button>
+
+        <button class="btn btn-success" (click)="submitScrutinyPopup()">
+          Submit Report
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}
+
+</div>

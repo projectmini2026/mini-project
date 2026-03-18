@@ -1,0 +1,14 @@
+use MiniProjectDB;
+GO
+ 
+
+CREATE TABLE Users (
+Id INT PRIMARY KEY IDENTITY,
+Email NVARCHAR(100),
+Password NVARCHAR(100),
+Role NVARCHAR(50)
+);
+
+ 
+
+

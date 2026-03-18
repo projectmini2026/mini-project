@@ -1,0 +1,130 @@
+ .main-color{
+  background:#27466b !important;
+  color:white !important;
+}
+
+.main-text{
+  color:#27466b !important;
+}
+/* ================= SIDEBAR ================= */
+
+.sidebar-item{
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+  margin-bottom: 12px;
+  border: none;
+}
+
+/* Hover Effect */
+.sidebar-item:hover{
+  background-color: #f5f7fa;
+  transform: translateX(6px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* Active Menu Item */
+.sidebar-item.active{
+  background: linear-gradient(135deg,#27466b,#27466b);
+  color: white;
+  box-shadow: 0 4px 12px rgba(13,110,253,0.4);
+}
+
+/* Sidebar Height */
+.vh-100{
+  height: calc(100vh - 60px);
+}
+
+/* Sidebar Card Styling */
+.sidebar-item .card-body{
+  padding: 12px 16px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Badge Styling */
+.sidebar-item .badge{
+  font-size: 0.75rem;
+  padding: 5px 8px;
+}
+
+.dashboard-card{
+border-radius:10px;
+background:#f8f9fa;
+}
+
+.action-box{
+padding:16px;
+border-radius:8px;
+font-size:15px;
+}
+
+.not-submitted{
+background:#f6dede;
+color:#8b0000;
+}
+
+.under-review{
+background:#e6dfc7;
+color:#7a4b00;
+}
+/* Open Exam Button */
+
+.open-exam-btn{
+background:#27466b;
+color:white;
+border:none;
+padding:14px 30px;
+font-size:18px;
+font-weight:600;
+border-radius:10px;
+box-shadow:0 6px 14px rgba(0,0,0,0.2);
+transition:all 0.25s ease;
+}
+
+.open-exam-btn i{
+font-size:20px;
+}
+
+.open-exam-btn:hover{
+background:#1e3654;
+transform:translateY(-2px);
+box-shadow:0 8px 18px rgba(0,0,0,0.25);
+}
+
+.open-exam-text{
+font-size:13px;
+color:#6c757d;
+margin-top:6px;
+}
+/* Open Exam Button */
+
+.open-exam-btn{
+background:#27466b;
+color:white;
+border:none;
+padding:14px 30px;
+font-size:18px;
+font-weight:600;
+border-radius:10px;
+box-shadow:0 6px 14px rgba(0,0,0,0.2);
+transition:all 0.25s ease;
+}
+
+.open-exam-btn i{
+font-size:20px;
+}
+
+.open-exam-btn:hover{
+background:#1e3654;
+transform:translateY(-2px);
+box-shadow:0 8px 18px rgba(0,0,0,0.25);
+}
+
+.open-exam-text{
+font-size:13px;
+color:#6c757d;
+margin-top:6px;
+}
