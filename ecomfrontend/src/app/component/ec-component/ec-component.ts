@@ -48,8 +48,12 @@ export class EcComponent {
   }
 
   logout() {
-    console.log("Logout clicked");
-  }
+  // clear session / stored data
+  localStorage.clear();
+
+  // navigate to login page
+  this.router.navigate(['/login']);
+}
 
   /* ================= MODULE MANAGEMENT ================= */
 
@@ -196,6 +200,7 @@ assignSuccess = false;
     console.log("Viewing PDF:", data.subject);
   }
 
+  
   /* ================= QN PAPER ================= */
 
   uploadedFile: File | null = null;

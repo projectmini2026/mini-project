@@ -15,5 +15,7 @@ export const routes: Routes = [
     {path:"faculty",component:FacultyComponent},
  {path:"module",component:ModuleComponent},
  {path:"ec",component:EcComponent},
- {path:"nf",component:NfComponent}
+ {path:"nf",component:NfComponent},
+ { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];

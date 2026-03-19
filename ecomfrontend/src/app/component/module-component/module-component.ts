@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+
+
 // ================= INTERFACES =================
 interface Paper {
   module: string;
@@ -29,6 +31,7 @@ interface ModuleDetails {
   styleUrls: ['./module-component.css'],
 })
 export class ModuleComponent {
+  
 
   private router = inject(Router);
 
@@ -41,10 +44,10 @@ export class ModuleComponent {
 
   tiles = [
     { title: "Dashboard" },
-    { title: "Module Management" },
-    { title: "Work Flow Status" },
-    { title: "Assign" },
-    { title: "Download" },
+    { title: "My Module" },
+    { title: "Assign Scrutinizer" },
+   
+    
     { title: "QN Paper" },
     { title: "Scrutiny Report" }
   ];
@@ -105,14 +108,13 @@ export class ModuleComponent {
   ];
 
   // ================= DASHBOARD =================
-  get pendingAssignCount(): number {
-    return this.papers.filter(p =>
-      p.uploaded && !p.scrutinizerAssigned
-    ).length;
-  }
-
+ get pendingAssignCount(): number {
+  return this.Papers.filter(p =>
+    p.status === 'Submitted' && !p.scrutinizerAssigned
+  ).length;
+}
   goToAssign() {
-    this.selectedMenu = 'Assign';
+    this.selectedMenu = 'Assign Scrutinizer';
   }
 
   // ================= ASSIGN =================
@@ -208,57 +210,161 @@ export class ModuleComponent {
   }
 
   // ================= LOGOUT =================
-  logout() {
-    console.log("Logout clicked");
-  }
+ logout() {
+  // clear session / stored data
+  localStorage.clear();
+
+  // navigate to login page
+  this.router.navigate(['/login']);
+}
 
   // ================= QN PAPERS =================
-  Papers = [
-    {
-      id: 'QP001',
-      faculty: 'Prof. Sunil KS',
-      submittedDate: '10/02/2026',
-      scrutinizer: 'Dr. Ajay James',
-      status: 'Approved',
-      uploaded: true,
-      scrutinizerAssigned: true
-    },
-    {
-      id: 'QP002',
-      faculty: 'Prof. Philumon Joseph',
-      submittedDate: '12/02/2026',
-      scrutinizer: '',
-      status: 'Submitted',
-      uploaded: true,
-      scrutinizerAssigned: false
-    },
-    {
-      id: 'QP003',
-      faculty: 'Prof. Sangeeth',
-      submittedDate: '13/02/2026',
-      scrutinizer: 'Dr. Sangeeth',
-      status: 'Under Scrutiny',
-      uploaded: true,
-      scrutinizerAssigned: true
-    },
-    {
-      id: 'QP004',
-      faculty: 'Dr. Priya Sharma',
-      submittedDate: '14/02/2026',
-      scrutinizer: '',
-      status: 'Submitted',
-      uploaded: true,
-      scrutinizerAssigned: false
-    },
-    {
-      id: 'QP005',
-      faculty: 'Dr. Rajesh Kumar',
-      submittedDate: '',
-      scrutinizer: '',
-      status: 'Not Submitted',
-      uploaded: false,
-      scrutinizerAssigned: false
+ Papers = [
+  {
+    id: 'QP001',
+    subject: 'Data Structures',
+    faculty: 'Prof. Sunil KS',
+    submittedDate: '10/02/2026',
+    scrutinizer: 'Dr. Ajay James',
+    status: 'Approved',
+    uploaded: true,
+    scrutinizerAssigned: true
+  },
+  {
+    id: 'QP002',
+    subject: 'Operating Systems',
+    faculty: 'Prof. Philumon Joseph',
+    submittedDate: '12/02/2026',
+    scrutinizer: '',
+    status: 'Submitted',
+    uploaded: true,
+    scrutinizerAssigned: false
+  },
+  {
+    id: 'QP003',
+    subject: 'Database Management Systems',
+    faculty: 'Prof. Sangeeth',
+    submittedDate: '13/02/2026',
+    scrutinizer: 'Dr. Sangeeth',
+    status: 'Under Scrutiny',
+    uploaded: true,
+    scrutinizerAssigned: true
+  },
+  {
+    id: 'QP004',
+    subject: 'Computer Networks',
+    faculty: 'Dr. Priya Sharma',
+    submittedDate: '14/02/2026',
+    scrutinizer: '',
+    status: 'Submitted',
+    uploaded: true,
+    scrutinizerAssigned: false
+  },
+  {
+    id: 'QP005',
+    subject: 'Software Engineering',
+    faculty: 'Dr. Rajesh Kumar',
+    submittedDate: '',
+    scrutinizer: '',
+    status: 'Not Submitted',
+    uploaded: false,
+    scrutinizerAssigned: false
+  }
+];
+
+  facultiesList: string[] = [
+  'Dr. Ajay James',
+  'Dr. Sangeeth',
+  'Dr. Priya Sharma',
+  'Dr. Rajesh Kumar'
+];
+
+selectedFilterFaculty: string = 'All Faculties';
+assignScrutinizer(paper: any, faculty: string) {
+
+  // 🚫 Block if not submitted
+  if (paper.status === 'Not Submitted') {
+    alert("Cannot assign. Paper not submitted.");
+    return;
+  }
+
+  if (!faculty) return;
+
+  paper.scrutinizer = faculty;
+  paper.scrutinizerAssigned = true;
+  paper.status = 'Under Scrutiny';
+}
+editingPaperId: string | null = null;
+startEdit(paper: any) {
+  this.editingPaperId = paper.id;
+}
+
+saveEdit(paper: any) {
+  if (!paper.scrutinizer) return;
+
+  paper.scrutinizerAssigned = true;
+  paper.status = 'Under Scrutiny';
+
+  this.editingPaperId = null;
+}
+
+cancelEdit() {
+  this.editingPaperId = null;
+}
+
+ /* ================= QN PAPER ================= */
+
+  uploadedFile: File | null = null;
+
+  uploadQnPaper(event: any) {
+    this.uploadedFile = event.target.files[0];
+  }
+
+  submitQnPaper() {
+
+    if (!this.uploadedFile) {
+      alert("Please select a file first");
+      return;
     }
+
+    alert("Question Paper uploaded successfully!");
+    this.uploadedFile = null;
+  }
+
+  /* ================= SCRUTINY ================= */
+
+  showScrutinyPopup = false;
+  selectedPaper: any;
+
+  scrutinyQuestions = [
+    { question: "Question 1", remark: "" },
+    { question: "Question 2", remark: "" },
+    { question: "Question 3", remark: "" }
   ];
+
+  openScrutinyPopup(paper: any) {
+    this.selectedPaper = paper;
+    this.showScrutinyPopup = true;
+  }
+
+  closeScrutinyPopup() {
+    this.showScrutinyPopup = false;
+  }
+
+  submitScrutinyPopup() {
+    alert("Scrutiny Report Submitted Successfully");
+    this.showScrutinyPopup = false;
+  }
+
+ viewPdf(paper: any) {
+
+  if (!paper.file) {
+    alert("No PDF uploaded");
+    return;
+  }
+
+  const fileURL = URL.createObjectURL(paper.file);
+  window.open(fileURL, '_blank');
+}
 
 }

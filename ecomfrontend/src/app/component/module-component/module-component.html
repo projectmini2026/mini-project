@@ -16,7 +16,6 @@
 
     <!-- Notification -->
     <div class="position-relative me-3">
-
       <button class="btn text-white" (click)="toggleNotifications()">
         <i class="bi bi-bell fs-5"></i>
       </button>
@@ -52,7 +51,6 @@
        (click)="logout()"></i>
 
   </div>
-
 </div>
 
 <!-- ================= MAIN LAYOUT ================= -->
@@ -70,15 +68,15 @@
 
         <div class="d-flex align-items-center">
 
-          <!-- ICONS -->
           <i *ngIf="tile.title === 'Dashboard'" class="bi bi-speedometer2 me-3"></i>
+          <i *ngIf="tile.title === 'My Module'" class="bi bi-journal-bookmark me-3"></i>
           <i *ngIf="tile.title === 'Module Management'" class="bi bi-diagram-3 me-3"></i>
           <i *ngIf="tile.title === 'Work Flow Status'" class="bi bi-clipboard-data me-3"></i>
           <i *ngIf="tile.title === 'Assign'" class="bi bi-person-check me-3"></i>
           <i *ngIf="tile.title === 'Download'" class="bi bi-download me-3"></i>
           <i *ngIf="tile.title === 'QN Paper'" class="bi bi-journal-text me-3"></i>
           <i *ngIf="tile.title === 'Scrutiny Report'" class="bi bi-search me-3"></i>
-
+          <i *ngIf="tile.title === 'Assign Scrutinizer'" class="bi bi-person-plus me-3"></i>
           <span>{{tile.title}}</span>
 
         </div>
@@ -92,124 +90,306 @@
   <!-- ================= RIGHT CONTENT ================= -->
   <div class="col-9 p-4">
 
-    <!-- DASHBOARD -->
-   @if(selectedMenu === 'Dashboard'){
+    <!-- ================= DASHBOARD ================= -->
+    @if(selectedMenu === 'Dashboard'){
 
-<div class="card shadow-sm p-4 dashboard-card mb-4">
+      <div class="card shadow-sm p-4 dashboard-card mb-4">
 
-  <h5 class="fw-semibold">Pending Actions</h5>
-  <p class="text-muted mb-4">Tasks requiring your attention</p>
+        <h5 class="fw-semibold">Pending Actions</h5>
+        <p class="text-muted mb-4">Tasks requiring your attention</p>
 
-  <!-- ASSIGN SCRUTINIZERS -->
-  <div class="pending-box d-flex justify-content-between align-items-center">
+        <div class="pending-box d-flex justify-content-between align-items-center">
 
-    <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-clock me-3 pending-icon text-warning"></i>
 
-      <i class="bi bi-clock me-3 pending-icon text-warning"></i>
+            <div>
+              <h6 class="mb-1">Assign Scrutinizers</h6>
+              <small>{{pendingAssignCount}} papers pending assignment</small>
+            </div>
+          </div>
 
-      <div>
-        <h6 class="mb-1">Assign Scrutinizers</h6>
-        <small>{{pendingAssignCount}} papers pending assignment</small>
+          <button class="btn assign-btn" (click)="goToAssign()">
+            Assign Now
+          </button>
+
+        </div>
+
       </div>
 
-    </div>
+      <div class="card shadow-sm p-4 dashboard-card">
 
-    <button class="btn assign-btn"
-            (click)="goToAssign()">
-      Assign Now
+        <h5 class="fw-semibold">Recent Question Papers</h5>
+        <p class="text-muted mb-4">
+          Latest submissions and their current status
+        </p>
+
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Paper ID</th>
+              <th>Faculty</th>
+              <th>Submitted Date</th>
+              <th>Scrutinizer</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let p of Papers">
+              <td>{{p.id}}</td>
+              <td>{{p.faculty}}</td>
+              <td>{{p.submittedDate || '-'}}</td>
+              <td>{{p.scrutinizer || 'Not Assigned'}}</td>
+
+              <td>
+                <span class="badge"
+                  [ngClass]="{
+                    'bg-success': p.status === 'Approved',
+                    'bg-primary': p.status === 'Submitted',
+                    'bg-warning text-dark': p.status === 'Under Scrutiny',
+                    'bg-secondary': p.status === 'Not Submitted'
+                  }">
+                  {{p.status}}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    }
+
+    <!-- ================= MY MODULE PAGE ================= -->
+    @if(selectedMenu === 'My Module'){
+
+      <h2 class="fw-bold">My Module</h2>
+      <p class="text-muted">
+        {{ module.name }} ({{ module.code }})
+      </p>
+
+      <!-- SUBJECTS -->
+      <div class="mt-4">
+        <h5 class="fw-bold">Subjects</h5>
+        <p class="text-muted">List of subjects under this module</p>
+
+        <div class="card p-3">
+          <table class="table mb-0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Subject Code</th>
+                <th>Subject Name</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let sub of module.subjects; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <span class="badge bg-light text-dark">
+                    {{ sub.code }}
+                  </span>
+                </td>
+                <td>{{ sub.name }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TEACHERS -->
+      <div class="mt-4">
+        <h5 class="fw-bold">Assigned Faculties</h5>
+
+        <div class="card p-3">
+          <table class="table mb-0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Faculty ID</th>
+                <th>Name</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let teacher of module.teachers; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ teacher.id }}</td>
+                <td>{{ teacher.name }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    }
+    
+<!-- ================= ASSIGN SCRUTINIZER PAGE ================= -->
+@if(selectedMenu === 'Assign Scrutinizer'){
+
+  <h2 class="fw-bold">Assign Scrutinizers</h2>
+  <p class="text-muted">
+    Assign scrutinizers to question papers for {{ module.name }}
+  </p>
+
+  
+
+  <!-- TABLE -->
+  <div class="card mt-4 p-3">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>Paper ID</th>
+          <th>Faculty</th>
+          <th>Submitted Date</th>
+          <th>Status</th>
+          <th>Assign Scrutinizer</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let p of Papers">
+          <td>{{ p.id }}</td>
+          <td>{{ p.faculty }}</td>
+          <td>{{ p.submittedDate || '-' }}</td>
+
+         <td>
+  <span class="badge"
+    [ngClass]="{
+      'bg-success': p.status === 'Approved',
+      'bg-primary': p.status === 'Submitted',
+      'bg-warning text-dark': p.status === 'Under Scrutiny',
+      'bg-danger': p.status === 'Not Submitted'
+    }">
+    {{ p.status }}
+  </span>
+</td>
+
+         <td>
+
+  <!-- ❌ NOT SUBMITTED -->
+  <span *ngIf="!p.uploaded" class="text-muted">
+    Not Available
+  </span>
+
+  <!-- ✅ VIEW MODE -->
+  <div *ngIf="p.uploaded && p.scrutinizerAssigned && editingPaperId !== p.id"
+       class="d-flex align-items-center gap-2">
+
+    <span>{{ p.scrutinizer }}</span>
+
+    <button class="btn btn-sm btn-outline-primary"
+            (click)="startEdit(p)">
+      Edit
     </button>
 
   </div>
 
-</div>
+  <!-- ✏️ EDIT MODE -->
+  <div *ngIf="p.uploaded && editingPaperId === p.id"
+       class="d-flex gap-2">
+
+    <select class="form-select"
+            [(ngModel)]="p.scrutinizer">
+      <option *ngFor="let f of facultiesList" [value]="f">
+        {{ f }}
+      </option>
+    </select>
+
+    <button class="btn btn-success btn-sm"
+            (click)="saveEdit(p)">
+      Save
+    </button>
+
+    <button class="btn btn-secondary btn-sm"
+            (click)="cancelEdit()">
+      Cancel
+    </button>
+
+  </div>
+
+  <!-- ✅ ASSIGN MODE -->
+  <select *ngIf="p.uploaded && !p.scrutinizerAssigned"
+          class="form-select"
+          [(ngModel)]="p.scrutinizer"
+          (ngModelChange)="assignScrutinizer(p, p.scrutinizer)">
+
+    <option value="">Select scrutinizer</option>
+    <option *ngFor="let f of facultiesList" [value]="f">
+      {{ f }}
+    </option>
+
+  </select>
+
+</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+}
 
 
-<!-- ================= RECENT QUESTION PAPERS ================= -->
+<!-- ================= QN PAPER ================= -->
 
-<div class="card shadow-sm p-4 dashboard-card">
 
-  <h5 class="fw-semibold">Recent Question Papers</h5>
-  <p class="text-muted mb-4">
-    Latest submissions and their current status
-  </p>
 
-  <table class="table table-hover align-middle">
 
-    <thead class="table-light">
-      <tr>
-        <th>Paper ID</th>
-        <th>Faculty</th>
-        <th>Submitted Date</th>
-        <th>Scrutinizer</th>
-        <th>Status</th>
-      </tr>
-    </thead>
+@if(selectedMenu === 'QN Paper'){
 
-    <tbody>
+<h3>Upload Question Paper</h3>
 
-      <tr *ngFor="let p of Papers">
+<input type="file"
+class="form-control mb-3"
+(change)="uploadQnPaper($event)">
 
-        <td>{{p.id}}</td>
-        <td>{{p.faculty}}</td>
-        <td>{{p.submittedDate || '-'}}</td>
-        <td>{{p.scrutinizer || 'Not Assigned'}}</td>
+<button class="btn btn-primary"
+(click)="submitQnPaper()">
 
-        <td>
-          <span class="badge"
+Submit Paper
 
-            [ngClass]="{
-              'bg-success': p.status === 'Approved',
-              'bg-primary': p.status === 'Submitted',
-              'bg-warning text-dark': p.status === 'Under Scrutiny',
-              'bg-secondary': p.status === 'Not Submitted'
-            }">
+</button>
 
-            {{p.status}}
+}
 
-          </span>
-        </td>
 
-      </tr>
+<!-- ================= SCRUTINY REPORT ================= -->
 
-    </tbody>
+@if(selectedMenu === 'Scrutiny Report'){
 
-  </table>
+<h3>Scrutiny Report</h3>
+
+<div *ngFor="let paper of Papers"
+     class="card p-3 mb-3 shadow-sm">
+<h6>{{paper.subject}} ({{paper.id}})</h6>
+
+<p>Faculty: {{paper.faculty}}</p>
+
+<button class="btn btn-outline-primary btn-sm me-2"
+(click)="viewPdf(paper)">
+
+View Question Paper
+
+</button>
+
+<button class="btn btn-warning btn-sm"
+(click)="openScrutinyPopup(paper)">
+
+Start Scrutiny
+
+</button>
 
 </div>
 
 }
-@if(selectedMenu === 'Dashboard'){
-<div class="card mt-4">
-  <div class="card-header custom-header">
-    Module Details
-  </div>
-  <div class="card-body">
 
-    <div class="row mb-2">
-      <div class="col-md-4"><strong>Module Name:</strong></div>
-      <div class="col-md-8">{{ module.name }}</div>
-    </div>
 
-    <div class="row mb-2">
-      <div class="col-md-4"><strong>Module Code:</strong></div>
-      <div class="col-md-8">{{ module.code }}</div>
-    </div>
 
-    <div class="row mb-2">
-      <div class="col-md-4"><strong>Coordinator:</strong></div>
-      <div class="col-md-8">{{ module.coordinator }}</div>
-    </div>
-
-    <div class="row mb-2">
-      <div class="col-md-4"><strong>Total Subjects:</strong></div>
-      <div class="col-md-8">{{ module.subjects.length }}</div>
-    </div>
-
-    <div class="row mb-2">
-      <div class="col-md-4"><strong>Total Teachers:</strong></div>
-      <div class="col-md-8">{{ module.teachers.length }}</div>
-    </div>
 
   </div>
+  
+
 </div>
-}
+</div>

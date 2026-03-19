@@ -45,8 +45,12 @@ export class HomeComponent extends BaseComponent {
   }
 
   logout() {
-    console.log("Logout clicked");
-  }
+  // clear session / stored data
+  localStorage.clear();
+
+  // navigate to login page
+  this.router.navigate(['/login']);
+}
 
 
   // ================= DASHBOARD =================
