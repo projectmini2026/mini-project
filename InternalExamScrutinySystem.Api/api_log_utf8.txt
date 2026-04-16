@@ -1,0 +1,61 @@
+﻿Using launch settings from Properties\launchSettings.json...
+Building...
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj : warning NU1903: Package 'AutoMapper' 13.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj : warning NU1903: Package 'AutoMapper' 13.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\Security\JwtTokenService.cs(39,34): warning CS8604: Possible null reference argument for parameter 'value' in 'Claim.Claim(string type, string value)'. [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj]
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\Services\AuthService.cs(39,84): warning CS8604: Possible null reference argument for parameter 'providedPassword' in 'PasswordVerificationResult IPasswordHasher<AppUser>.VerifyHashedPassword(AppUser user, string hashedPassword, string providedPassword)'. [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj]
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\Services\ModuleCoordinatorService.cs(155,60): warning CS8602: Dereference of a possibly null reference. [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj]
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\Services\ModuleCoordinatorService.cs(157,60): warning CS8602: Dereference of a possibly null reference. [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj]
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\Services\ModuleCoordinatorService.cs(162,52): warning CS8602: Dereference of a possibly null reference. [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj]
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\Services\ModuleCoordinatorService.cs(170,35): warning CS8602: Dereference of a possibly null reference. [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj]
+warn: Microsoft.EntityFrameworkCore.Model[10612]
+      Navigations 'AppUser.AssignedModule' and 'Module.ModuleCoordinator' were separated into two relationships since the [ForeignKey] attribute was specified on navigations on both sides.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (13ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [MigrationId], [ProductVersion]
+      FROM [__EFMigrationsHistory]
+      ORDER BY [MigrationId];
+info: Microsoft.EntityFrameworkCore.Migrations[20405]
+      No migrations were applied. The database is already up to date.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[Id], [u].[Email], [u].[IsFirstLogin], [u].[ModuleId], [u].[Name], [u].[PasswordHash], [u].[Position], [u].[RoleId]
+      FROM [Users] AS [u]
+      WHERE [u].[Email] = N'hod@college.edu'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Modules] AS [m]) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [ModuleSubjects] AS [m]) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5096
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\krishna mini project\backend\InternalExamScrutinySystem.Api
+

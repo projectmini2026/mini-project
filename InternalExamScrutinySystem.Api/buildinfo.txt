@@ -1,0 +1,17 @@
+﻿  Determining projects to restore...
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj : warning NU1903: Package 'AutoMapper' 13.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.sln]
+  All projects are up-to-date for restore.
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj : warning NU1903: Package 'AutoMapper' 13.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\Contracts\HodDtos.cs(81,14): error CS0101: The namespace 'InternalExamScrutinySystem.Api.Contracts' already contains a definition for 'FacultyResponseDto' [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj]
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\Contracts\HodDtos.cs(93,14): error CS0101: The namespace 'InternalExamScrutinySystem.Api.Contracts' already contains a definition for 'FacultyRosterDto' [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj]
+
+Build FAILED.
+
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj : warning NU1903: Package 'AutoMapper' 13.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.sln]
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj : warning NU1903: Package 'AutoMapper' 13.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\Contracts\HodDtos.cs(81,14): error CS0101: The namespace 'InternalExamScrutinySystem.Api.Contracts' already contains a definition for 'FacultyResponseDto' [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj]
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\Contracts\HodDtos.cs(93,14): error CS0101: The namespace 'InternalExamScrutinySystem.Api.Contracts' already contains a definition for 'FacultyRosterDto' [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj]
+    2 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:01.29

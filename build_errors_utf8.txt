@@ -1,0 +1,16 @@
+﻿  Determining projects to restore...
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj : warning NU1903: Package 'AutoMapper' 13.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x
+  All projects are up-to-date for restore.
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj : warning NU1903: Package 'AutoMapper' 13.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\db_check.cs(2,43): error CS0234: The type or namespace name 'Entities' does not exist in the namespace 'InternalExamScrutinySystem.Api.Data' (are you missing an assembly reference?) [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj]
+
+Build FAILED.
+
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj : warning NU1903: Package 'AutoMapper' 13.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj : warning NU1903: Package 'AutoMapper' 13.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x
+C:\krishna mini project\backend\InternalExamScrutinySystem.Api\db_check.cs(2,43): error CS0234: The type or namespace name 'Entities' does not exist in the namespace 'InternalExamScrutinySystem.Api.Data' (are you missing an assembly reference?) [C:\krishna mini project\backend\InternalExamScrutinySystem.Api\InternalExamScrutinySystem.Api.csproj]
+    2 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:01.40
+
